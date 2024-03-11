@@ -16,6 +16,3 @@ def createDatabase():
 
     con.commit()
 
-if os.path.exists("trondelagTeater.db"):
-    os.remove("trondelagTeater.db")
-createDatabase()
