@@ -17,5 +17,8 @@ def createDatabase():
 
     con.commit()
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e12156b (Implement usecase 5)
 createDatabase()
