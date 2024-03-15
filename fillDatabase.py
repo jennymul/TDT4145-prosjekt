@@ -10,7 +10,7 @@ def fillDatabase():
     cursor = con.cursor()
     cursor.execute("""PRAGMA encoding = "UTF-8" """)
 
-    cursor.execute('INSERT INTO TeaterSal VALUES (1, "Hovedscenen", 524)')
+    cursor.execute("INSERT INTO TeaterSal VALUES (1, 'Hovedscenen', 524)")
     cursor.execute('INSERT INTO TeaterSal VALUES (2, "Gamle Scene", 320)')
     # We want to insert the rows 1-16 in main scene as these are just straight forward double loop
     for seat in range(1, 449):
@@ -165,31 +165,30 @@ def fillDatabase():
     cursor.execute('INSERT INTO Rolle VALUES (20,"Natlie Grøndahl Tangen")')
     cursor.execute('INSERT INTO Rolle VALUES (21,"Åsmund Flaten")')
 
-    # Spilles av
-    cursor.execute("INSERT INTO SpillesAv VALUES (1,1)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (2,2)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (3,3)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (4,4)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (5,5)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (6,6)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (7,7)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (8,8)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (9,9)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (9,10)")
-    # TODO: Possibly should be something else
-    # cursor.execute('INSERT INTO SpillesAv VALUES (2,2)')
-    cursor.execute("INSERT INTO SpillesAv VALUES (10,10)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (10,11)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (11,12)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (11,13)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (12,14)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (13,15)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (14,16)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (15,17)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (16,18)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (17,19)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (18,20)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (19,21)")
+    #Spilles av
+    cursor.execute('INSERT INTO SpillesAv VALUES (1,1)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (2,2)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (3,3)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (4,4)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (5,5)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (6,6)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (7,7)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (8,8)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (9,9)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (9,10)')
+    #cursor.execute('INSERT INTO SpillesAv VALUES (2,2)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (10,10)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (10,11)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (11,12)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (11,13)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (12,14)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (13,15)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (14,16)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (15,17)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (16,18)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (17,19)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (18,20)')
+    cursor.execute('INSERT INTO SpillesAv VALUES (19,21)')
 
     # Forestillinger Kongsemnene
     cursor.execute('INSERT INTO Forestilling VALUES ("01-02-2024", "19:00:00",1)')
@@ -260,6 +259,7 @@ def fillDatabase():
     cursor.execute("INSERT INTO RolleIAkt VALUES (14,4,1)")
     cursor.execute("INSERT INTO RolleIAkt VALUES (14,5,1)")
 
+<<<<<<< HEAD
     cursor.execute("INSERT INTO RolleIAkt VALUES(15,1,2)")
     cursor.execute("INSERT INTO RolleIAkt VALUES(16,1,2)")
     cursor.execute("INSERT INTO RolleIAkt VALUES(17,1,2)")
@@ -392,6 +392,20 @@ def fillDatabase():
             row_counter += 1
 
     # Oppgaver
+=======
+    #Ansatte
+    cursor.execute('INSERT INTO Ansatt VALUES (1,"Yury Butusov","Fast","yurybutusov@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES (2, "Aleksandr Shishkin-Hokusai", "Fast", "aleksandrshishkin-hokusai@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES (3, "Eivind Myren", "Fast", "eivindmyren@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES (4, "Mina Rype Stokke", "Fast", "minarypestokke@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES (5, "Jonas Corell Petersen", "Fast", "jonaspetersen@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES (6, "David Gehrt", "Fast", "davidghert@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES(7, "Gaute Tønder", "Fast", "gautetonder@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES(8, "Magnus Mikaelsen", "Fast", "magnusmikaelsen@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES(9, "Kristoffer Spender", "Fast", "kristofferspender@trondelagteater.no")')
+    
+    #Oppgaver
+>>>>>>> e12156b (Implement usecase 5)
     cursor.execute('INSERT INTO Oppgave VALUES (1,"Regi","regissør",2)')
     cursor.execute('INSERT INTO Oppgave VALUES (2,"Scenografi","Fikse scene",2)')
     cursor.execute('INSERT INTO Oppgave VALUES (3,"Kostyme","Fikse kostymer",2)')
