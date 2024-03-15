@@ -16,3 +16,4 @@ def createDatabase():
 
     con.commit()
 
+createDatabase()
