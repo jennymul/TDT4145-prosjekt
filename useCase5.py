@@ -18,5 +18,3 @@ def findActors():
             print( x)
 findActors()
 
-#finne navn på skuespillere som opptrer i forskjellige teaterstykker. 
-#skriv ut navn på teaterstykke, navn på skuespiller og rolle
