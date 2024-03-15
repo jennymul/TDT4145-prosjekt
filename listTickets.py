@@ -21,6 +21,7 @@ def getShowWithTicketsByDate(date):
 
     shows = cursor.fetchall()
 
+
     for show in shows:
         print(f'Forestilling den {show[0]} klokken {show[1]} for stykke "{show[2]}"', f' - {show[3]} Billetter')
         
