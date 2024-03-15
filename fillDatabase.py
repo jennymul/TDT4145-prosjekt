@@ -91,7 +91,7 @@ def fillDatabase():
     cursor.execute('INSERT INTO Skuespiller VALUES (4, "Madeleine Brandtzæg Nilsen")')
     cursor.execute('INSERT INTO Skuespiller VALUES (5, "Synnøve Fossum Eriksen")')
     cursor.execute('INSERT INTO Skuespiller VALUES (6, "Emma Caroline Deichmann")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (7, "Thomas Jensen Takyi"")')
+    cursor.execute('INSERT INTO Skuespiller VALUES (7, "Thomas Jensen Takyi")')
     cursor.execute('INSERT INTO Skuespiller VALUES (8, "Per Bogstad Gulliksen")')
     cursor.execute('INSERT INTO Skuespiller VALUES (9, "Isak Holmen Sørensen")')
     cursor.execute('INSERT INTO Skuespiller VALUES (10, "Fabian Heidelberg Lunde")')
@@ -143,7 +143,8 @@ def fillDatabase():
     cursor.execute('INSERT INTO SpillesAv VALUES (8,8)')
     cursor.execute('INSERT INTO SpillesAv VALUES (9,9)')
     cursor.execute('INSERT INTO SpillesAv VALUES (9,10)')
-    cursor.execute('INSERT INTO SpillesAv VALUES (2,2)')
+    #TODO: Possibly should be something else
+    #cursor.execute('INSERT INTO SpillesAv VALUES (2,2)')
     cursor.execute('INSERT INTO SpillesAv VALUES (10,10)')
     cursor.execute('INSERT INTO SpillesAv VALUES (10,11)')
     cursor.execute('INSERT INTO SpillesAv VALUES (11,12)')
@@ -236,7 +237,7 @@ def fillDatabase():
 
     #Ansatte
     cursor.execute('INSERT INTO Ansatt VALUES (1,"Yury Butusov","Fast","yurybutusov@trondelagteater.no")')
-    cursor.execute('INSERT INTO Ansatt VALUES (2, "Aleksandr Shishkin-Hokusai", "Fast", aleksandrshishkin-hokusai@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES (2, "Aleksandr Shishkin-Hokusai", "Fast", "aleksandrshishkin-hokusai@trondelagteater.no")')
     cursor.execute('INSERT INTO Ansatt VALUES (3, "Eivind Myren", "Fast", "eivindmyren@trondelagteater.no")')
     cursor.execute('INSERT INTO Ansatt VALUES (4, "Mina Rype Stokke", "Fast", "minarypestokke@trondelagteater.no")')
     cursor.execute('INSERT INTO Ansatt VALUES (5, "Jonas Corell Petersen", "Fast", "jonaspetersen@trondelagteater.no")')
