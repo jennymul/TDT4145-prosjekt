@@ -305,16 +305,15 @@ def fillDatabase():
     floor_seatings = ["Galleri", "Parkett", "Balkong"]
 
     with open("filesneeded/gamle-scene.txt", "r") as file:
+
         lines = file.readlines()
         date = None
         row_counter = 1
         current_floor = None
         billet_id_counter = 1
+        time = None
         for line in lines:
-            line = line.replace("\n", "")
-            pattern = re.compile(pattern)
-            line = "your string here"
-
+            line = line.strip()
             match = re.search(pattern, line)
             if match and date is None:
                 date = match.group()
@@ -323,9 +322,8 @@ def fillDatabase():
                 row_counter = 1
                 current_floor = line
                 continue
-            for i, seat in enumerate([*line]):
-                print(seat)
-                if seat == "0":
+            for i, seat in enumerate(line):
+                if seat in ["0", "x"]:
                     continue
                 if seat == "x":
                     continue
