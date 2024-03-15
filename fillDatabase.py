@@ -76,6 +76,14 @@ def fillDatabase():
     cursor.execute('INSERT INTO Teaterstykke VALUES (1, "Kongsemnene", "Henrik Ibsen", 1)')
     cursor.execute('INSERT INTO Teaterstykke VALUES (2, "Størst av alt er Kjærligheten", "Jonas Corell Petersen", 2)')
 
+    #Akt
+    cursor.execute('INSERT INTO Akt VALUES (1, 1)')
+    cursor.execute('INSERT INTO Akt VALUES (1, 2)')
+    cursor.execute('INSERT INTO Akt VALUES (1, 3)')
+    cursor.execute('INSERT INTO Akt VALUES (1, 4)')
+    cursor.execute('INSERT INTO Akt VALUES (1, 5)')
+    cursor.execute('INSERT INTO Akt VALUES (2, 1)')
+
     #Actors in Kongsemnene
     cursor.execute('INSERT INTO Skuespiller VALUES (1, "Arturo Scotti")')
     cursor.execute('INSERT INTO Skuespiller VALUES (2, "Ingunn Beate Strige Øyen")')
@@ -217,10 +225,26 @@ def fillDatabase():
     cursor.execute('INSERT INTO RolleIAkt VALUES (14,3,1)')
     cursor.execute('INSERT INTO RolleIAkt VALUES (14,4,1)')
     cursor.execute('INSERT INTO RolleIAkt VALUES (14,5,1)')
+    
+    cursor.execute('INSERT INTO RolleIAkt VALUES(15,1,2)')
+    cursor.execute('INSERT INTO RolleIAkt VALUES(16,1,2)')
+    cursor.execute('INSERT INTO RolleIAkt VALUES(17,1,2)')
+    cursor.execute('INSERT INTO RolleIAkt VALUES(18,1,2)')
+    cursor.execute('INSERT INTO RolleIAkt VALUES(19,1,2)')
+    cursor.execute('INSERT INTO RolleIAkt VALUES(20,1,2)')
+    cursor.execute('INSERT INTO RolleIAkt VALUES(21,1,2)')
 
-
- 
-
+    #Ansatte
+    cursor.execute('INSERT INTO Ansatt VALUES (1,"Yury Butusov","Fast","yurybutusov@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES (2, "Aleksandr Shishkin-Hokusai", "Fast", aleksandrshishkin-hokusai@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES (3, "Eivind Myren", "Fast", "eivindmyren@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES (4, "Mina Rype Stokke", "Fast", "minarypestokke@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES (5, "Jonas Corell Petersen", "Fast", "jonaspetersen@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES (6, "David Gehrt", "Fast", "davidghert@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES(7, "Gaute Tønder", "Fast", "gautetonder@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES(8, "Magnus Mikaelsen", "Fast", "magnusmikaelsen@trondelagteater.no")')
+    cursor.execute('INSERT INTO Ansatt VALUES(9, "Kristoffer Spender", "Fast", "kristofferspender@trondelagteater.no")')
+    
     con.commit()
 
 fillDatabase()
