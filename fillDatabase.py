@@ -246,6 +246,39 @@ def fillDatabase():
     cursor.execute('INSERT INTO Ansatt VALUES(8, "Magnus Mikaelsen", "Fast", "magnusmikaelsen@trondelagteater.no")')
     cursor.execute('INSERT INTO Ansatt VALUES(9, "Kristoffer Spender", "Fast", "kristofferspender@trondelagteater.no")')
     
+    #Oppgaver
+    cursor.execute('INSERT INTO Oppgave VALUES (1,"Regi","regissør",2)')
+    cursor.execute('INSERT INTO Oppgave VALUES (2,"Scenografi","Fikse scene",2)')
+    cursor.execute('INSERT INTO Oppgave VALUES (3,"Kostyme","Fikse kostymer",2)')
+    cursor.execute('INSERT INTO Oppgave VALUES (4,"Musikalsk ansvarlig","Ansvar for musikk",2)')
+    cursor.execute('INSERT INTO Oppgave VALUES (5,"Lysdesign","Fikse lys",2)')
+    cursor.execute('INSERT INTO Oppgave VALUES (6,"Dramaturg","Fikse drama",2)')
+
+    cursor.execute('INSERT INTO Oppgave VALUES (7,"Regi","regissør",1)')
+    cursor.execute('INSERT INTO Oppgave VALUES (8,"Musikkutvelgelse","Velge ut musikk",1)')
+    cursor.execute('INSERT INTO Oppgave VALUES (9,"Scenografi","Fikse scene",1)')
+    cursor.execute('INSERT INTO Oppgave VALUES (10,"Kostyme","Fikse kostymer",1)')
+    cursor.execute('INSERT INTO Oppgave VALUES (11,"Lysdesign","Fikse lys",1)')
+    cursor.execute('INSERT INTO Oppgave VALUES (12,"Dramaturg","Fikse drama",1)')
+
+
+
+    #TildeltOppgave
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (5,1)')
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (6,2)')
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (6,3)')
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (7,4)')
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (8,5)')
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (9,6)')
+
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (10,7)')
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (10,8)')
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (11,9)')
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (11,10)')
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (12,11)')
+    cursor.execute('INSERT INTO TildeltOppgave VALUES (13,12)')
+
+
     con.commit()
 
 fillDatabase()
