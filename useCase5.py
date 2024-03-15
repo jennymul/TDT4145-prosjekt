@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def findActors():
+def useCase5():
     con = sqlite3.connect("trondelagTeater.db")
     cursor = con.cursor()
 
@@ -21,7 +21,7 @@ def findActors():
             print(x)
 
 
-findActors()
+useCase5()
 
 # finne navn på skuespillere som opptrer i forskjellige teaterstykker.
 # skriv ut navn på teaterstykke, navn på skuespiller og rolle
