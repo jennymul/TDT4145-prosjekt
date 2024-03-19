@@ -303,6 +303,7 @@ def fillDatabase():
     )
 
     date_pattern = r"\d{4}-\d{2}-\d{2}"
+    # We need to re-order dates due to inconsistency with other table.
     floor_seatings = ["Galleri", "Parkett", "Balkong"]
     billet_id_counter = 1
     current_time = datetime.now().strftime("%H:%M:%S")
@@ -318,6 +319,8 @@ def fillDatabase():
             match = re.search(date_pattern, line)
             if match:
                 date = match.group()
+                date_arr = date.split("-")
+                date = date_arr[2] + "-" + date_arr[1] + "-" + date_arr[0]
                 continue
             if line in floor_seatings:
                 row_counter = 1
@@ -358,6 +361,8 @@ def fillDatabase():
             match = re.search(date_pattern, line)
             if match:
                 date = match.group()
+                date_arr = date.split("-")
+                date = date_arr[2] + "-" + date_arr[1] + "-" + date_arr[0]
                 continue
             if line in floor_seatings:
                 row_counter = 1
@@ -369,7 +374,7 @@ def fillDatabase():
                 if seat == "1":
                     cursor.execute(
                         'INSERT INTO BillettKjop VALUES(?, 350, ?, ?, "1" )',
-                        [billet_id_counter, current_time, date],
+                        [billet_id_counter, date, current_time],
                     )
                     cursor.execute(
                         'INSERT INTO Billett VALUES(?, 1, ?, ?, ?, ?, "19:00:00",1,1,?)',
