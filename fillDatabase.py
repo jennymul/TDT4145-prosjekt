@@ -3,9 +3,10 @@ import os
 import re
 import sqlite3
 import math
+import asyncio
 
 
-def fillDatabase():
+async def fillDatabase():
     con = sqlite3.connect("trondelagTeater.db")
     cursor = con.cursor()
     cursor.execute("""PRAGMA encoding = "UTF-8" """)
@@ -432,4 +433,3 @@ def fillDatabase():
     con.commit()
 
 
-fillDatabase()

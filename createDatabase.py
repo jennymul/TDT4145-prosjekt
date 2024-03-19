@@ -1,8 +1,9 @@
 import os
 import sqlite3
+import asyncio
 
 
-def createDatabase():
+async def createDatabase():
     con = sqlite3.connect("trondelagTeater.db")
     cursor = con.cursor()
     cursor.execute("""PRAGMA encoding = "UTF-8" """)
@@ -16,6 +17,3 @@ def createDatabase():
         cursor.execute(command)
 
     con.commit()
-
-
-createDatabase()
