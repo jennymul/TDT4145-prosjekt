@@ -10,7 +10,7 @@ def fillDatabase():
     cursor = con.cursor()
     cursor.execute("""PRAGMA encoding = "UTF-8" """)
 
-    cursor.execute('INSERT INTO TeaterSal VALUES (1, "Hovedscenen", 524)')
+    cursor.execute("INSERT INTO TeaterSal VALUES (1, 'Hovedscenen', 524)")
     cursor.execute('INSERT INTO TeaterSal VALUES (2, "Gamle Scene", 320)')
     # We want to insert the rows 1-16 in main scene as these are just straight forward double loop
     for seat in range(1, 449):
@@ -176,7 +176,6 @@ def fillDatabase():
     cursor.execute("INSERT INTO SpillesAv VALUES (8,8)")
     cursor.execute("INSERT INTO SpillesAv VALUES (9,9)")
     cursor.execute("INSERT INTO SpillesAv VALUES (9,10)")
-    # TODO: Possibly should be something else
     # cursor.execute('INSERT INTO SpillesAv VALUES (2,2)')
     cursor.execute("INSERT INTO SpillesAv VALUES (10,10)")
     cursor.execute("INSERT INTO SpillesAv VALUES (10,11)")
@@ -243,6 +242,11 @@ def fillDatabase():
     cursor.execute("INSERT INTO RolleIAkt VALUES (3,5,1)")
     cursor.execute("INSERT INTO RolleIAkt VALUES (4,1,1)")
     cursor.execute("INSERT INTO RolleIAkt VALUES (4,5,1)")
+    cursor.execute("INSERT INTO RolleIAkt VALUES (9,1,1)")
+    cursor.execute("INSERT INTO RolleIAkt VALUES (9,2,1)")
+    cursor.execute("INSERT INTO RolleIAkt VALUES (9,3,1)")
+    cursor.execute("INSERT INTO RolleIAkt VALUES (9,4,1)")
+    cursor.execute("INSERT INTO RolleIAkt VALUES (9,5,1)")
     cursor.execute("INSERT INTO RolleIAkt VALUES (8,1,1)")
     cursor.execute("INSERT INTO RolleIAkt VALUES (8,2,1)")
     cursor.execute("INSERT INTO RolleIAkt VALUES (8,3,1)")
