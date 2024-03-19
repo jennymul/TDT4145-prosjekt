@@ -24,15 +24,15 @@ def getShowWithTicketsByDate(date):
 
 
     for show in shows:
-        print(f'Forestilling den {show[0]} klokken {show[1]} for stykke "{show[2]}"', f' - {show[3]} Billetter')
+        print(f'Forestilling den {show[0]} klokken {show[1]} for stykke "{show[2]}"', f'- {show[3]} solgte billetter')
         
 
-date = input("Enter date to list shows with tickets on (FORMAT DD-MM-YYYY)): ")
+date = input("Skriv inn datoen du vil vise billetter til (FORMAT DD-MM-YYYY): ")
 try:
     pattern = r'^\d{2}-\d{2}-\d{4}$'
         
     if not re.match(pattern, date):
-        raise Exception("Date on invalid format")
+        raise Exception("Dato er på feil format")
         
     getShowWithTicketsByDate(date)
 except Exception as e:

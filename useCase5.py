@@ -15,13 +15,15 @@ def useCase5():
                    JOIN Rolle ON RolleIAkt.Rolle = Rolle.RolleID"""
     )
     a = cursor.fetchall()
-    for entry in a:
-        print("\n")
-        for x in entry:
-            print(x)
 
+    print("Kongsemnene:")
+    for x in a:
+        if(x[0] == "Kongsemnene"):
+            print(f'Skuespiller: {x[1]} - Rolle: {x[2]}')
+    print("\nStørst av alt er Kjærligheten:")
+    for x in a:
+        if(x[0] == "Størst av alt er Kjærligheten"):
+            print(f'Skuespiller: {x[1]} - Rolle: {x[2]}')
 
 useCase5()
 
-# finne navn på skuespillere som opptrer i forskjellige teaterstykker.
-# skriv ut navn på teaterstykke, navn på skuespiller og rolle

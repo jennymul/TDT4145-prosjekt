@@ -22,12 +22,11 @@ def listShowsByTicketSales():
     cursor.execute(query)
 
     shows = cursor.fetchall()
-    print(shows)
 
     for show in shows:
         print(
-            f'Forestilling den {show[0]} klokken {show[1]} for stykke "{show[2]}"',
-            f" - {show[3]} Billetter",
+            f'Forestilling den {show[0]} for teaterstykke "{show[2]}"',
+            f" - {show[3]} solge billetter",
         )
 
 
