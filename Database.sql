@@ -133,7 +133,7 @@ CREATE TABLE Billett (
     FOREIGN KEY (Dato, Klokkeslett) REFERENCES Forestilling(Dato, Klokkeslett),
     FOREIGN KEY (Sal) REFERENCES TeaterSal(SalID),
     FOREIGN KEY (TeaterStykke) REFERENCES TeaterStykke(TeaterStykkeID),
-    FOREIGN KEY (Type) REFERENCES PrisType(Type),
+    FOREIGN KEY (Type, TeaterStykke) REFERENCES PrisType(Type, TeaterStykke),
     FOREIGN KEY (Kjop) REFERENCES BillettKjop(KjopID)
 );
 
