@@ -2,7 +2,7 @@ import sqlite3
 from utils import printTable
 
 
-def printActorsPlayedInSameAct(actor_name):
+def printActorsPlayedInSameActAsActor(actor_name):
     con = sqlite3.connect("trondelagTeater.db")
     cursor = con.cursor()
 
@@ -20,9 +20,10 @@ def printActorsPlayedInSameAct(actor_name):
         JOIN RolleIAkt ON RolleIAkt.Rolle = SpillesAv.Rolle
         JOIN Akt ON RolleIAkt.Akt = Akt.AktNummer AND RolleIAkt.TeaterStykke = Akt.TeaterStykke
         WHERE Skuespiller.Navn = ?
-    ) AS SkuespillerInfo ON RolleIAkt.Akt = SkuespillerInfo.AktNummer AND RolleIAkt.TeaterStykke = SkuespillerInfo.TeaterStykke;
+    ) AS SkuespillerInfo ON RolleIAkt.Akt = SkuespillerInfo.AktNummer AND RolleIAkt.TeaterStykke = SkuespillerInfo.TeaterStykke
+    WHERE Skuespiller.Navn != ?;
     """,
-        [actor_name],
+        [actor_name, actor_name],
     )
 
     result = cursor.fetchall()
@@ -31,4 +32,4 @@ def printActorsPlayedInSameAct(actor_name):
 
 
 actor_name = input("Skriv inn skuespillernavn: ")
-printActorsPlayedInSameAct(actor_name)
+printActorsPlayedInSameActAsActor(actor_name)

@@ -6,13 +6,9 @@ import math
 import asyncio
 
 
-async def fillDatabase():
-    con = sqlite3.connect("trondelagTeater.db")
-    cursor = con.cursor()
-    cursor.execute("""PRAGMA encoding = "UTF-8" """)
+def insertHovedscenen(cursor):
+    cursor.execute("""INSERT INTO TeaterSal VALUES (1, 'Hovedscenen', 524)""")
 
-    cursor.execute("INSERT INTO TeaterSal VALUES (1, 'Hovedscenen', 524)")
-    cursor.execute('INSERT INTO TeaterSal VALUES (2, "Gamle Scene", 320)')
     # We want to insert the rows 1-16 in main scene as these are just straight forward double loop
     for seat in range(1, 449):
         cursor.execute(
@@ -52,7 +48,9 @@ async def fillDatabase():
             [seat],
         )
 
-    # For the old scene we need a mapping between amount of seats to rows due to inconsistencies.
+
+def insertGamleScene(cursor):
+    cursor.execute("""INSERT INTO TeaterSal VALUES (2, "Gamle Scene", 320)""")
     # Main floor:
     main_row_seat_mapping = [
         (1, 18),
@@ -102,332 +100,352 @@ async def fillDatabase():
                 [seat, mapping[0]],
             )
 
+
+ticket_id = 1
+
+
+def insertTicketsFromFile(cursor, filename, hall_id, play_id, show_time):
+    global ticket_id
+    ticket_price = 350  # We assume that only ordinary tickets are purchased
+
+    dummy_current_date = "01-02-2024"
+    dummy_current_time = "10:00:00"
+
+    date = None
+
+    floors = []
+    current_floor = None
+
+    with open(filename, "r") as file:
+        date_components = file.readline().strip()[5:].split("-")
+        date = date_components[2] + "-" + date_components[1] + "-" + date_components[0]
+
+        for line in file:
+            line = line.strip()
+            if line.isalpha():
+                if current_floor:
+                    floors.append(current_floor)
+                current_floor = (line, [])
+            elif current_floor is not None:
+                current_floor[1].append(line)
+
+        if current_floor:
+            floors.append(current_floor)
+
+    for floor in floors:
+        floor_name = floor[0]
+
+        for row_number, row in enumerate(reversed(floor[1])):
+            for seat_number, seat in enumerate(row):
+                if seat != "1":
+                    continue
+
+                cursor.execute(
+                    'INSERT INTO BillettKjop VALUES(?, ?, ?, ?, "1" )',
+                    [ticket_id, ticket_price, dummy_current_date, dummy_current_time],
+                )
+
+                cursor.execute(
+                    "INSERT INTO Billett VALUES(?, 'Ordinær', ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [
+                        ticket_id,
+                        seat_number + 1,
+                        row_number + 1,
+                        floor_name,
+                        date,
+                        show_time,
+                        hall_id,
+                        play_id,
+                        ticket_id,
+                    ],
+                )
+
+                ticket_id += 1
+
+
+async def fillDatabase():
+    con = sqlite3.connect("trondelagTeater.db")
+    cursor = con.cursor()
+    cursor.execute('PRAGMA encoding = "UTF-8"')
+
+    insertHovedscenen(cursor)
+    insertGamleScene(cursor)
+
     # Teaterstykker
     cursor.execute(
-        'INSERT INTO Teaterstykke VALUES (1, "Kongsemnene", "Henrik Ibsen", 1)'
-    )
-    cursor.execute(
-        'INSERT INTO Teaterstykke VALUES (2, "Størst av alt er Kjærligheten", "Jonas Corell Petersen", 2)'
+        """INSERT INTO TeaterStykke VALUES
+            (1, "Kongsemnene", "Henrik Ibsen", 1),
+            (2, "Størst av alt er Kjærligheten", "Jonas Corell Petersen", 2);
+    """
     )
 
     # Akt
-    cursor.execute("INSERT INTO Akt VALUES (1, 1)")
-    cursor.execute("INSERT INTO Akt VALUES (1, 2)")
-    cursor.execute("INSERT INTO Akt VALUES (1, 3)")
-    cursor.execute("INSERT INTO Akt VALUES (1, 4)")
-    cursor.execute("INSERT INTO Akt VALUES (1, 5)")
-    cursor.execute("INSERT INTO Akt VALUES (2, 1)")
+    cursor.execute(
+        """INSERT INTO Akt VALUES
+        (1, 1),
+        (1, 2),
+        (1, 3),
+        (1, 4),
+        (1, 5),
+        (2, 1);"""
+    )
 
     # Actors in Kongsemnene
-    cursor.execute('INSERT INTO Skuespiller VALUES (1, "Arturo Scotti")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (2, "Ingunn Beate Strige Øyen")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (3, "Hans Petter Nilsen")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (4, "Madeleine Brandtzæg Nilsen")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (5, "Synnøve Fossum Eriksen")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (6, "Emma Caroline Deichmann")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (7, "Thomas Jensen Takyi")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (8, "Per Bogstad Gulliksen")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (9, "Isak Holmen Sørensen")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (10, "Fabian Heidelberg Lunde")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (11, "Emil Olafsson")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (12, "Snorre Ryen Tøndel")')
+    cursor.execute(
+        """INSERT INTO Skuespiller VALUES
+        (1, "Arturo Scotti"),
+        (2, "Ingunn Beate Strige Øyen"),
+        (3, "Hans Petter Nilsen"),
+        (4, "Madeleine Brandtzæg Nilsen"),
+        (5, "Synnøve Fossum Eriksen"),
+        (6, "Emma Caroline Deichmann"),
+        (7, "Thomas Jensen Takyi"),
+        (8, "Per Bogstad Gulliksen"),
+        (9, "Isak Holmen Sørensen"),
+        (10, "Fabian Heidelberg Lunde"),
+        (11, "Emil Olafsson"),
+        (12, "Snorre Ryen Tøndel");
+    """
+    )
 
     # Actors in Størst av alt er Kjærligheten
-    cursor.execute('INSERT INTO Skuespiller VALUES (13, "Sunniva Du Mond Nordal")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (14, "Jo Saberniak")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (15, "Marte M. Steinholt")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (16, "Tor Ivar Hagen")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (17, "Trond-Ove Skrødal")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (18, "Natlie Grøndahl Tangen")')
-    cursor.execute('INSERT INTO Skuespiller VALUES (19, "Åsmund Flaten")')
+    cursor.execute(
+        """INSERT INTO Skuespiller VALUES
+        (13, "Sunniva Du Mond Nordal"),
+        (14, "Jo Saberniak"),
+        (15, "Marte M. Steinholt"),
+        (16, "Tor Ivar Hagen"),
+        (17, "Trond-Ove Skrødal"),
+        (18, "Natlie Grøndahl Tangen"),
+        (19, "Åsmund Flaten");
+    """
+    )
 
     # Roles in Kongsemnene
-    cursor.execute('INSERT INTO Rolle VALUES (1,"Haakon Haakonssønn")')
-    cursor.execute('INSERT INTO Rolle VALUES (2,"Inga fra Vartejg (Haakons mor)")')
-    cursor.execute('INSERT INTO Rolle VALUES (3,"Skule jarl")')
-    cursor.execute('INSERT INTO Rolle VALUES (4,"Fru Ragnhild (Skules hustru)")')
-    cursor.execute('INSERT INTO Rolle VALUES (5,"Margrete (Skules datter)")')
-    cursor.execute('INSERT INTO Rolle VALUES (6,"Sigrid (Skules søster) / Ingebjørg")')
-    cursor.execute('INSERT INTO Rolle VALUES (7,"Biskop Nikolas")')
-    cursor.execute('INSERT INTO Rolle VALUES (8,"Gregorius Jonssønn")')
-    cursor.execute('INSERT INTO Rolle VALUES (9,"Paal Flida")')
-    cursor.execute('INSERT INTO Rolle VALUES (10,"Trønder")')
-    cursor.execute('INSERT INTO Rolle VALUES (11,"Baard Bratte")')
-    cursor.execute('INSERT INTO Rolle VALUES (12,"Jatgeir Skald")')
-    cursor.execute('INSERT INTO Rolle VALUES (13,"Dagfinn Bonde")')
-    cursor.execute('INSERT INTO Rolle VALUES (14,"Peter(prest og Ingebjørgs sønn)")')
+    cursor.execute(
+        """INSERT INTO Rolle VALUES
+        (1,"Haakon Haakonssønn"),
+        (2,"Inga fra Vartejg (Haakons mor)"),
+        (3,"Skule jarl"),
+        (4,"Fru Ragnhild (Skules hustru)"),
+        (5,"Margrete (Skules datter)"),
+        (6,"Sigrid (Skules søster) / Ingebjørg"),
+        (7,"Biskop Nikolas"),
+        (8,"Gregorius Jonssønn"),
+        (9,"Paal Flida"),
+        (10,"Trønder"),
+        (11,"Baard Bratte"),
+        (12,"Jatgeir Skald"),
+        (13,"Dagfinn Bonde"),
+        (14,"Peter(prest og Ingebjørgs sønn)");
+    """
+    )
 
     # Roles in Størst av alt er Kjærligheten
-    cursor.execute('INSERT INTO Rolle VALUES (15,"Sunniva Du Mond Nordal")')
-    cursor.execute('INSERT INTO Rolle VALUES (16,"Jo Saberniak")')
-    cursor.execute('INSERT INTO Rolle VALUES (17,"Marte M. Steinholt")')
-    cursor.execute('INSERT INTO Rolle VALUES (18,"Tor Ivar Hagen")')
-    cursor.execute('INSERT INTO Rolle VALUES (19,"Trond-Ove Skrødal")')
-    cursor.execute('INSERT INTO Rolle VALUES (20,"Natlie Grøndahl Tangen")')
-    cursor.execute('INSERT INTO Rolle VALUES (21,"Åsmund Flaten")')
+    cursor.execute(
+        """INSERT INTO Rolle VALUES
+        (15,"Sunniva Du Mond Nordal"),
+        (16,"Jo Saberniak"),
+        (17,"Marte M. Steinholt"),
+        (18,"Tor Ivar Hagen"),
+        (19,"Trond-Ove Skrødal"),
+        (20,"Natlie Grøndahl Tangen"),
+        (21,"Åsmund Flaten");
+    """
+    )
 
     # Spilles av
-    cursor.execute("INSERT INTO SpillesAv VALUES (1,1)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (2,2)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (3,3)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (4,4)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (5,5)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (6,6)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (7,7)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (8,8)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (9,9)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (9,10)")
-    # cursor.execute('INSERT INTO SpillesAv VALUES (2,2)')
-    cursor.execute("INSERT INTO SpillesAv VALUES (10,10)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (10,11)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (11,12)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (11,13)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (12,14)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (13,15)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (14,16)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (15,17)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (16,18)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (17,19)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (18,20)")
-    cursor.execute("INSERT INTO SpillesAv VALUES (19,21)")
+    cursor.execute(
+        """INSERT INTO SpillesAv VALUES
+        (1,1),
+        (2,2),
+        (3,3),
+        (4,4),
+        (5,5),
+        (6,6),
+        (7,7),
+        (8,8),
+        (9,9),
+        (9,10),
+        (10,10),
+        (10,11),
+        (11,12),
+        (11,13),
+        (12,14),
+        (13,15),
+        (14,16),
+        (15,17),
+        (16,18),
+        (17,19),
+        (18,20),
+        (19,21);
+    """
+    )
 
     # Forestillinger Kongsemnene
-    cursor.execute('INSERT INTO Forestilling VALUES ("01-02-2024", "19:00:00",1)')
-    cursor.execute('INSERT INTO Forestilling VALUES ("02-02-2024", "19:00:00",1)')
-    cursor.execute('INSERT INTO Forestilling VALUES ("03-02-2024", "19:00:00",1)')
-    cursor.execute('INSERT INTO Forestilling VALUES ("05-02-2024", "19:00:00",1)')
-    cursor.execute('INSERT INTO Forestilling VALUES ("06-02-2024", "19:00:00",1)')
+    cursor.execute(
+        """INSERT INTO Forestilling VALUES
+        ("01-02-2024", "19:00:00",1),
+        ("02-02-2024", "19:00:00",1),
+        ("03-02-2024", "19:00:00",1),
+        ("05-02-2024", "19:00:00",1),
+        ("06-02-2024", "19:00:00",1);
+    """
+    )
 
     # Forestillinger Størst av alt er Kjærligheten
-    cursor.execute('INSERT INTO Forestilling VALUES ("03-02-2024", "18:30:00",2)')
-    cursor.execute('INSERT INTO Forestilling VALUES ("06-02-2024", "18:30:00",2)')
-    cursor.execute('INSERT INTO Forestilling VALUES ("07-02-2024", "18:30:00",2)')
-    cursor.execute('INSERT INTO Forestilling VALUES ("12-02-2024", "18:30:00",2)')
-    cursor.execute('INSERT INTO Forestilling VALUES ("13-02-2024", "18:30:00",2)')
-    cursor.execute('INSERT INTO Forestilling VALUES ("14-02-2024", "18:30:00",2)')
+    cursor.execute(
+        """INSERT INTO Forestilling VALUES
+        ("03-02-2024", "18:30:00", 2),
+        ("06-02-2024", "18:30:00", 2),
+        ("07-02-2024", "18:30:00", 2),
+        ("12-02-2024", "18:30:00", 2),
+        ("13-02-2024", "18:30:00", 2),
+        ("14-02-2024", "18:30:00", 2);
+    """
+    )
 
     # Pristype Kongsemnene
-    cursor.execute('INSERT INTO PrisType VALUES ("Ordinær", 350, 1)')
-    cursor.execute('INSERT INTO PrisType VALUES ("Honnør", 380, 1)')
-    cursor.execute('INSERT INTO PrisType VALUES ("Student", 280, 1)')
-    cursor.execute('INSERT INTO PrisType VALUES ("Gruppe 10", 420, 1)')
-    cursor.execute('INSERT INTO PrisType VALUES ("Gruppe honnør", 360, 1)')
+    cursor.execute(
+        """INSERT INTO PrisType VALUES
+        ("Ordinær", 350, 1),
+        ("Honnør", 380, 1),
+        ("Student", 280, 1),
+        ("Gruppe 10", 420, 1),
+        ("Gruppe honnør", 360, 1);
+    """
+    )
 
     # Pristype Størst av alt er kjærligheten
-    cursor.execute('INSERT INTO PrisType VALUES ("Ordinær", 350, 2)')
-    cursor.execute('INSERT INTO PrisType VALUES ("Honnør", 300, 2)')
-    cursor.execute('INSERT INTO PrisType VALUES ("Student", 220, 2)')
-    cursor.execute('INSERT INTO PrisType VALUES ("Barn", 220, 2)')
-    cursor.execute('INSERT INTO PrisType VALUES ("Gruppe 10", 330, 2)')
-    cursor.execute('INSERT INTO PrisType VALUES ("Gruppe honnør 10", 270, 2)')
+    cursor.execute(
+        """INSERT INTO PrisType VALUES
+        ("Ordinær", 350, 2),
+        ("Honnør", 300, 2),
+        ("Student", 220, 2),
+        ("Barn", 220, 2),
+        ("Gruppe 10", 330, 2),
+        ("Gruppe honnør 10", 270, 2);
+    """
+    )
 
     # Roller i Akt
-    cursor.execute("INSERT INTO RolleIAkt VALUES (1,1,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (1,2,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (1,3,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (1,4,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (1,5,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (13,1,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (13,2,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (13,3,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (13,4,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (13,5,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (12,4,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (6,1,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (6,2,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (6,5,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (3,1,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (3,2,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (3,3,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (3,4,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (3,5,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (4,1,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (4,5,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (9,1,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (9,2,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (9,3,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (9,4,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (9,5,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (8,1,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (8,2,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (8,3,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (8,4,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (8,5,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (5,1,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (5,2,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (5,3,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (5,4,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (5,5,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (7,1,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (7,2,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (7,3,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (14,3,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (14,4,1)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES (14,5,1)")
+    cursor.execute(
+        """INSERT INTO RolleIAkt VALUES
+        (1,1,1),
+        (1,2,1),
+        (1,3,1),
+        (1,4,1),
+        (1,5,1),
+        (13,1,1),
+        (13,2,1),
+        (13,3,1),
+        (13,4,1),
+        (13,5,1),
+        (12,4,1),
+        (6,1,1),
+        (6,2,1),
+        (6,5,1),
+        (3,1,1),
+        (3,2,1),
+        (3,3,1),
+        (3,4,1),
+        (3,5,1),
+        (4,1,1),
+        (4,5,1),
+        (9,1,1),
+        (9,2,1),
+        (9,3,1),
+        (9,4,1),
+        (9,5,1),
+        (8,1,1),
+        (8,2,1),
+        (8,3,1),
+        (8,4,1),
+        (8,5,1),
+        (5,1,1),
+        (5,2,1),
+        (5,3,1),
+        (5,4,1),
+        (5,5,1),
+        (7,1,1),
+        (7,2,1),
+        (7,3,1),
+        (14,3,1),
+        (14,4,1),
+        (14,5,1);
+    """
+    )
 
-    cursor.execute("INSERT INTO RolleIAkt VALUES(15,1,2)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES(16,1,2)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES(17,1,2)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES(18,1,2)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES(19,1,2)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES(20,1,2)")
-    cursor.execute("INSERT INTO RolleIAkt VALUES(21,1,2)")
+    cursor.execute(
+        """INSERT INTO RolleIAkt VALUES
+        (15,1,2),
+        (16,1,2),
+        (17,1,2),
+        (18,1,2),
+        (19,1,2),
+        (20,1,2),
+        (21,1,2);
+    """
+    )
 
     # Ansatte
     cursor.execute(
-        'INSERT INTO Ansatt VALUES (1,"Yury Butusov","Fast","yurybutusov@trondelagteater.no")'
-    )
-    cursor.execute(
-        'INSERT INTO Ansatt VALUES (2, "Aleksandr Shishkin-Hokusai", "Fast", "aleksandrshishkin-hokusai@trondelagteater.no")'
-    )
-    cursor.execute(
-        'INSERT INTO Ansatt VALUES (3, "Eivind Myren", "Fast", "eivindmyren@trondelagteater.no")'
-    )
-    cursor.execute(
-        'INSERT INTO Ansatt VALUES (4, "Mina Rype Stokke", "Fast", "minarypestokke@trondelagteater.no")'
-    )
-    cursor.execute(
-        'INSERT INTO Ansatt VALUES (5, "Jonas Corell Petersen", "Fast", "jonaspetersen@trondelagteater.no")'
-    )
-    cursor.execute(
-        'INSERT INTO Ansatt VALUES (6, "David Gehrt", "Fast", "davidghert@trondelagteater.no")'
-    )
-    cursor.execute(
-        'INSERT INTO Ansatt VALUES(7, "Gaute Tønder", "Fast", "gautetonder@trondelagteater.no")'
-    )
-    cursor.execute(
-        'INSERT INTO Ansatt VALUES(8, "Magnus Mikaelsen", "Fast", "magnusmikaelsen@trondelagteater.no")'
-    )
-    cursor.execute(
-        'INSERT INTO Ansatt VALUES(9, "Kristoffer Spender", "Fast", "kristofferspender@trondelagteater.no")'
+        """INSERT INTO Ansatt VALUES
+        (1,"Yury Butusov","Fast","yurybutusov@trondelagteater.no"),
+        (2, "Aleksandr Shishkin-Hokusai", "Fast", "aleksandrshishkin-hokusai@trondelagteater.no"),
+        (3, "Eivind Myren", "Fast", "eivindmyren@trondelagteater.no"),
+        (4, "Mina Rype Stokke", "Fast", "minarypestokke@trondelagteater.no"),
+        (5, "Jonas Corell Petersen", "Fast", "jonaspetersen@trondelagteater.no"),
+        (6, "David Gehrt", "Fast", "davidghert@trondelagteater.no"),
+        (7, "Gaute Tønder", "Fast", "gautetonder@trondelagteater.no"),
+        (8, "Magnus Mikaelsen", "Fast", "magnusmikaelsen@trondelagteater.no"),
+        (9, "Kristoffer Spender", "Fast", "kristofferspender@trondelagteater.no");
+    """
     )
 
     # Bruker
     cursor.execute(
-        'INSERT INTO Kunde VALUES(1,"Navn Navnesen", "Parkgata 1", "navn@gmail.com")'
+        """INSERT INTO Kunde VALUES(1,"Navn Navnesen", "Parkgata 1", "navn@gmail.com")"""
     )
-
-    date_pattern = r"\d{4}-\d{2}-\d{2}"
-    # We need to re-order dates due to inconsistency with other table.
-    floor_seatings = ["Galleri", "Parkett", "Balkong"]
-    billet_id_counter = 1
-    current_time = datetime.now().strftime("%H:%M:%S")
-
-    with open("filesneeded/gamle-scene.txt", "r") as file:
-
-        lines = file.readlines()
-        date = None
-        row_counter = 1
-        current_floor = None
-        for line in lines:
-            line = line.strip()
-            match = re.search(date_pattern, line)
-            if match:
-                date = match.group()
-                date_arr = date.split("-")
-                date = date_arr[2] + "-" + date_arr[1] + "-" + date_arr[0]
-                continue
-            if line in floor_seatings:
-                row_counter = 1
-                current_floor = line
-                continue
-            for i, seat in enumerate(line):
-                if seat in ["0", "x"]:
-                    continue
-                if seat == "1":
-                    cursor.execute(
-                        'INSERT INTO BillettKjop VALUES(?, 350, ?, ?, "1" )',
-                        [billet_id_counter, date, current_time],
-                    )
-                    cursor.execute(
-                        "INSERT INTO Billett VALUES(?, 1, ?, ?, ?, ?, '18:30:00',2,2,?)",
-                        [
-                            billet_id_counter,
-                            i + 1,
-                            row_counter,
-                            current_floor,
-                            date,
-                            billet_id_counter,
-                        ],
-                    )
-                    billet_id_counter += 1
-
-            row_counter += 1
-
-    with open("filesneeded/hovedscenen.txt", "r") as file:
-
-        lines = file.readlines()
-        date = None
-        row_counter = 1
-        current_floor = None
-        time = None
-        for line in lines:
-            line = line.strip()
-            match = re.search(date_pattern, line)
-            if match:
-                date = match.group()
-                date_arr = date.split("-")
-                date = date_arr[2] + "-" + date_arr[1] + "-" + date_arr[0]
-                continue
-            if line in floor_seatings:
-                row_counter = 1
-                current_floor = line
-                continue
-            for i, seat in enumerate(line):
-                if seat in ["0", "x"]:
-                    continue
-                if seat == "1":
-                    cursor.execute(
-                        'INSERT INTO BillettKjop VALUES(?, 350, ?, ?, "1" )',
-                        [billet_id_counter, date, current_time],
-                    )
-                    cursor.execute(
-                        'INSERT INTO Billett VALUES(?, 1, ?, ?, ?, ?, "19:00:00",1,1,?)',
-                        [
-                            billet_id_counter,
-                            i + 1,
-                            row_counter,
-                            current_floor,
-                            date,
-                            billet_id_counter,
-                        ],
-                    )
-                    billet_id_counter += 1
-
-            row_counter += 1
 
     # Oppgaver
-    cursor.execute('INSERT INTO Oppgave VALUES (1,"Regi","regissør",2)')
-    cursor.execute('INSERT INTO Oppgave VALUES (2,"Scenografi","Fikse scene",2)')
-    cursor.execute('INSERT INTO Oppgave VALUES (3,"Kostyme","Fikse kostymer",2)')
     cursor.execute(
-        'INSERT INTO Oppgave VALUES (4,"Musikalsk ansvarlig","Ansvar for musikk",2)'
+        """INSERT INTO Oppgave VALUES
+        (1, "Regi", "regissør", 2),
+        (2, "Scenografi", "Fikse scene", 2),
+        (3, "Kostyme", "Fikse kostymer", 2),
+        (4, "Musikalsk ansvarlig", "Ansvar for musikk", 2),
+        (5, "Lysdesign", "Fikse lys", 2),
+        (6, "Dramaturg", "Fikse drama", 2),
+        (7, "Regi", "regissør", 1),
+        (8, "Musikkutvelgelse", "Velge ut musikk", 1),
+        (9, "Scenografi", "Fikse scene", 1),
+        (10, "Kostyme", "Fikse kostymer", 1),
+        (11, "Lysdesign", "Fikse lys", 1),
+        (12, "Dramaturg", "Fikse drama", 1);
+    """
     )
-    cursor.execute('INSERT INTO Oppgave VALUES (5,"Lysdesign","Fikse lys",2)')
-    cursor.execute('INSERT INTO Oppgave VALUES (6,"Dramaturg","Fikse drama",2)')
-
-    cursor.execute('INSERT INTO Oppgave VALUES (7,"Regi","regissør",1)')
-    cursor.execute(
-        'INSERT INTO Oppgave VALUES (8,"Musikkutvelgelse","Velge ut musikk",1)'
-    )
-    cursor.execute('INSERT INTO Oppgave VALUES (9,"Scenografi","Fikse scene",1)')
-    cursor.execute('INSERT INTO Oppgave VALUES (10,"Kostyme","Fikse kostymer",1)')
-    cursor.execute('INSERT INTO Oppgave VALUES (11,"Lysdesign","Fikse lys",1)')
-    cursor.execute('INSERT INTO Oppgave VALUES (12,"Dramaturg","Fikse drama",1)')
 
     # TildeltOppgave
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (5,1)")
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (6,2)")
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (6,3)")
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (7,4)")
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (8,5)")
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (9,6)")
+    cursor.execute(
+        """INSERT INTO TildeltOppgave VALUES
+        (5, 1),
+        (6, 2),
+        (6, 3),
+        (7, 4),
+        (8, 5),
+        (9, 6),
+        (10, 7),
+        (10, 8),
+        (11, 9),
+        (11, 10),
+        (12, 11),
+        (13, 12);
+    """
+    )
 
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (10,7)")
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (10,8)")
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (11,9)")
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (11,10)")
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (12,11)")
-    cursor.execute("INSERT INTO TildeltOppgave VALUES (13,12)")
+    insertTicketsFromFile(cursor, "filesneeded/hovedscenen.txt", 1, 1, "19:00:00")
+    insertTicketsFromFile(cursor, "filesneeded/gamle-scene.txt", 2, 2, "18:30:00")
 
     con.commit()
+    con.close()

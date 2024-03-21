@@ -8,8 +8,8 @@ ticket_price_type = "Ordinær"
 ticket_count = 9
 customer_id = 1
 
-play_id = 2  # TODO
-hall_id = 2  # TODO
+play_id = 2
+hall_id = 2
 
 con = sqlite3.connect("trondelagTeater.db")
 cursor = con.cursor()

@@ -39,60 +39,66 @@ Kjøpte en Ordinær billett på setenummer 9 og radnummer 1 i salområdet Balkon
 ### Brukstilfelle 4
 ```
 Skriv inn datoen du vil vise billetter til (FORMAT DD-MM-YYYY): 03-02-2024
-Forestilling den 03-02-2024 klokken 18:30:00 for stykke "Størst av alt er Kjærligheten" - 27 solgte billetter
-Forestilling den 03-02-2024 klokken 19:00:00 for stykke "Kongsemnene" - 65 solgte billetter 
+| Dato       | Klokkeslett | TeaterStykke                  | Antall solgte billetter |
+|------------|-------------|-------------------------------|-------------------------|
+| 03-02-2024 | 18:30:00    | Størst av alt er Kjærligheten | 27                      |
+| 03-02-2024 | 19:00:00    | Kongsemnene                   | 65                      |
+
 ```
 
 ### Brukstilfelle 5
 ```
-Kongsemnene:
-Skuespiller: Arturo Scotti - Rolle: Haakon Haakonssønn
-Skuespiller: Hans Petter Nilsen - Rolle: Skule jarl
-Skuespiller: Madeleine Brandtzæg Nilsen - Rolle: Fru Ragnhild (Skules hustru)
-Skuespiller: Synnøve Fossum Eriksen - Rolle: Margrete (Skules datter)
-Skuespiller: Emma Caroline Deichmann - Rolle: Sigrid (Skules søster) / Ingebjørg
-Skuespiller: Thomas Jensen Takyi - Rolle: Biskop Nikolas
-Skuespiller: Per Bogstad Gulliksen - Rolle: Gregorius Jonssønn
-Skuespiller: Isak Holmen Sørensen - Rolle: Paal Flida
-Skuespiller: Emil Olafsson - Rolle: Jatgeir Skald
-Skuespiller: Emil Olafsson - Rolle: Dagfinn Bonde
-Skuespiller: Snorre Ryen Tøndel - Rolle: Peter(prest og Ingebjørgs sønn)
-
-Størst av alt er Kjærligheten:
-Skuespiller: Sunniva Du Mond Nordal - Rolle: Sunniva Du Mond Nordal
-Skuespiller: Jo Saberniak - Rolle: Jo Saberniak
-Skuespiller: Marte M. Steinholt - Rolle: Marte M. Steinholt
-Skuespiller: Tor Ivar Hagen - Rolle: Tor Ivar Hagen
-Skuespiller: Trond-Ove Skrødal - Rolle: Trond-Ove Skrødal
-Skuespiller: Natlie Grøndahl Tangen - Rolle: Natlie Grøndahl Tangen
-Skuespiller: Åsmund Flaten - Rolle: Åsmund Flaten
+| TeaterStykke                  | Skuespiller                | Rolle                              |
+|-------------------------------|----------------------------|------------------------------------|
+| Kongsemnene                   | Arturo Scotti              | Haakon Haakonssønn                 |
+| Kongsemnene                   | Hans Petter Nilsen         | Skule jarl                         |
+| Kongsemnene                   | Madeleine Brandtzæg Nilsen | Fru Ragnhild (Skules hustru)       |
+| Kongsemnene                   | Synnøve Fossum Eriksen     | Margrete (Skules datter)           |
+| Kongsemnene                   | Emma Caroline Deichmann    | Sigrid (Skules søster) / Ingebjørg |
+| Kongsemnene                   | Thomas Jensen Takyi        | Biskop Nikolas                     |
+| Kongsemnene                   | Per Bogstad Gulliksen      | Gregorius Jonssønn                 |
+| Kongsemnene                   | Isak Holmen Sørensen       | Paal Flida                         |
+| Kongsemnene                   | Emil Olafsson              | Jatgeir Skald                      |
+| Kongsemnene                   | Emil Olafsson              | Dagfinn Bonde                      |
+| Kongsemnene                   | Snorre Ryen Tøndel         | Peter(prest og Ingebjørgs sønn)    |
+| Størst av alt er Kjærligheten | Sunniva Du Mond Nordal     | Sunniva Du Mond Nordal             |
+| Størst av alt er Kjærligheten | Jo Saberniak               | Jo Saberniak                       |
+| Størst av alt er Kjærligheten | Marte M. Steinholt         | Marte M. Steinholt                 |
+| Størst av alt er Kjærligheten | Tor Ivar Hagen             | Tor Ivar Hagen                     |
+| Størst av alt er Kjærligheten | Trond-Ove Skrødal          | Trond-Ove Skrødal                  |
+| Størst av alt er Kjærligheten | Natlie Grøndahl Tangen     | Natlie Grøndahl Tangen             |
+| Størst av alt er Kjærligheten | Åsmund Flaten              | Åsmund Flaten                      |
 ```
 
 ### Brukstilfelle 6
 ```
-Forestilling den 03-02-2024 for teaterstykke "Kongsemnene"  - 65 solge billetter
-Forestilling den 03-02-2024 for teaterstykke "Størst av alt er Kjærligheten"  - 27 solge billetter
-Forestilling den 01-02-2024 for teaterstykke "Kongsemnene"  - 0 solge billetter
-Forestilling den 02-02-2024 for teaterstykke "Kongsemnene"  - 0 solge billetter
-Forestilling den 05-02-2024 for teaterstykke "Kongsemnene"  - 0 solge billetter
-Forestilling den 06-02-2024 for teaterstykke "Størst av alt er Kjærligheten"  - 0 solge billetter
-Forestilling den 06-02-2024 for teaterstykke "Kongsemnene"  - 0 solge billetter
-Forestilling den 07-02-2024 for teaterstykke "Størst av alt er Kjærligheten"  - 0 solge billetter
-Forestilling den 12-02-2024 for teaterstykke "Størst av alt er Kjærligheten"  - 0 solge billetter
-Forestilling den 13-02-2024 for teaterstykke "Størst av alt er Kjærligheten"  - 0 solge billetter
-Forestilling den 14-02-2024 for teaterstykke "Størst av alt er Kjærligheten"  - 0 solge billetter
+| Dato       | Klokkeslett | TeaterStykke                  | Antall solgte billetter |
+|------------|-------------|-------------------------------|-------------------------|
+| 03-02-2024 | 19:00:00    | Kongsemnene                   | 65                      |
+| 03-02-2024 | 18:30:00    | Størst av alt er Kjærligheten | 27                      |
+| 01-02-2024 | 19:00:00    | Kongsemnene                   | 0                       |
+| 02-02-2024 | 19:00:00    | Kongsemnene                   | 0                       |
+| 05-02-2024 | 19:00:00    | Kongsemnene                   | 0                       |
+| 06-02-2024 | 18:30:00    | Størst av alt er Kjærligheten | 0                       |
+| 06-02-2024 | 19:00:00    | Kongsemnene                   | 0                       |
+| 07-02-2024 | 18:30:00    | Størst av alt er Kjærligheten | 0                       |
+| 12-02-2024 | 18:30:00    | Størst av alt er Kjærligheten | 0                       |
+| 13-02-2024 | 18:30:00    | Størst av alt er Kjærligheten | 0                       |
+| 14-02-2024 | 18:30:00    | Størst av alt er Kjærligheten | 0                       |
 ```
 
 ### Brukstilfelle 7
 ```
 Skriv inn skuespillernavn: Arturo Scotti
-Arturo Scotti spilte sammen med Hans Petter Nilsen i Kongsemnene
-Arturo Scotti spilte sammen med Madeleine Brandtzæg Nilsen i Kongsemnene
-Arturo Scotti spilte sammen med Synnøve Fossum Eriksen i Kongsemnene
-Arturo Scotti spilte sammen med Emma Caroline Deichmann i Kongsemnene
-Arturo Scotti spilte sammen med Thomas Jensen Takyi i Kongsemnene
-Arturo Scotti spilte sammen med Per Bogstad Gulliksen i Kongsemnene
-Arturo Scotti spilte sammen med Isak Holmen Sørensen i Kongsemnene
-Arturo Scotti spilte sammen med Emil Olafsson i Kongsemnene
-Arturo Scotti spilte sammen med Snorre Ryen Tøndel i Kongsemnene
+| Skuespiller A | Skuespiller B              | TeaterStykke |
+|---------------|----------------------------|--------------|
+| Arturo Scotti | Hans Petter Nilsen         | Kongsemnene  |
+| Arturo Scotti | Madeleine Brandtzæg Nilsen | Kongsemnene  |
+| Arturo Scotti | Synnøve Fossum Eriksen     | Kongsemnene  |
+| Arturo Scotti | Emma Caroline Deichmann    | Kongsemnene  |
+| Arturo Scotti | Thomas Jensen Takyi        | Kongsemnene  |
+| Arturo Scotti | Per Bogstad Gulliksen      | Kongsemnene  |
+| Arturo Scotti | Isak Holmen Sørensen       | Kongsemnene  |
+| Arturo Scotti | Emil Olafsson              | Kongsemnene  |
+| Arturo Scotti | Snorre Ryen Tøndel         | Kongsemnene  |
 ```

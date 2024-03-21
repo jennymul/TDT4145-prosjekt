@@ -3,12 +3,13 @@ import re
 from utils import printTable
 
 
-def listShowsByTicketSales():
+def printShowsByTicketSales():
     con = sqlite3.connect("trondelagTeater.db")
     cursor = con.cursor()
     cursor.execute("""PRAGMA encoding = "UTF-8" """)
 
-    query = """
+    cursor.execute(
+        """
     SELECT
         f.Dato, 
         f.Klokkeslett, 
@@ -20,12 +21,13 @@ def listShowsByTicketSales():
     GROUP BY f.Dato, f.Klokkeslett, ts.Tittel
     ORDER BY AntallBilletter DESC
     """
-    cursor.execute(query)
+    )
 
     shows = cursor.fetchall()
     printTable(
         ["Dato", "Klokkeslett", "TeaterStykke", "Antall solgte billetter"], shows
     )
+    con.close()
 
 
-listShowsByTicketSales()
+printShowsByTicketSales()
