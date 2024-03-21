@@ -431,5 +431,3 @@ async def fillDatabase():
     cursor.execute("INSERT INTO TildeltOppgave VALUES (13,12)")
 
     con.commit()
-
-

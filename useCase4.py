@@ -1,39 +1,44 @@
 import sqlite3
 import re
+from utils import printTable
 
-def getShowWithTicketsByDate(date):
+
+def printShowWithTicketsByDate(date):
     con = sqlite3.connect("trondelagTeater.db")
     cursor = con.cursor()
     cursor.execute("""PRAGMA encoding = "UTF-8" """)
 
-    query = """
+    cursor.execute(
+        """
     SELECT 
-        f.Dato, 
-        f.Klokkeslett, 
-        ts.Tittel as TeaterStykkeTittel, 
+        F.Dato, 
+        F.Klokkeslett, 
+        TS.Tittel as TeaterStykkeTittel, 
         COUNT(b.BillettID) as AntallBilletter
-    FROM Forestilling f
-    JOIN TeaterStykke ts ON f.TeaterStykke = ts.TeaterStykkeID
-    LEFT JOIN Billett b ON f.TeaterStykke = b.TeaterStykke AND f.Dato = b.Dato AND f.Klokkeslett = b.Klokkeslett
-    WHERE f.Dato = ?
-    GROUP BY f.Dato, f.Klokkeslett, ts.Tittel
-    """
-    cursor.execute(query, [date])
+    FROM Forestilling F
+    JOIN TeaterStykke TS ON F.TeaterStykke = TS.TeaterStykkeID
+    LEFT JOIN Billett b ON F.TeaterStykke = b.TeaterStykke AND F.Dato = b.Dato AND F.Klokkeslett = b.Klokkeslett
+    WHERE F.Dato = ?
+    GROUP BY F.Dato, F.Klokkeslett, TS.Tittel
+    """,
+        [date],
+    )
+    shows_and_tickets = cursor.fetchall()
 
-    shows = cursor.fetchall()
+    printTable(
+        ["Dato", "Klokkeslett", "TeaterStykke", "Antall solgte billetter"],
+        shows_and_tickets,
+    )
+    con.close()
 
 
-    for show in shows:
-        print(f'Forestilling den {show[0]} klokken {show[1]} for stykke "{show[2]}"', f'- {show[3]} solgte billetter')
-        
-
-date = input("Skriv inn datoen du vil vise billetter til (FORMAT DD-MM-YYYY): ")
+show_date = input("Skriv inn datoen du vil vise billetter til (FORMAT DD-MM-YYYY): ")
 try:
-    pattern = r'^\d{2}-\d{2}-\d{4}$'
-        
-    if not re.match(pattern, date):
-        raise Exception("Dato er på feil format")
-        
-    getShowWithTicketsByDate(date)
-except Exception as e:
-    print(e)
+    date_pattern = r"^\d{2}-\d{2}-\d{4}$"
+
+    if not re.match(date_pattern, show_date):
+        raise Exception("Dato er på feil format. Det riktige formatet er 'dd-mm-yyyy'")
+
+    printShowWithTicketsByDate(show_date)
+except Exception as error:
+    print(error)

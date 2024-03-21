@@ -1,17 +1,18 @@
 # TDT4145-Prosjekt Gruppe 145
 Jonas De Luna Skulberg, Falk Elvedal Bruskeland, Jenny Müller
+
 ## Kommentarer/Antagelser
-Ettersom de ansatte ikke hadde epost antok vi hva eposten ville vært.
-Alle forestillingene for et gitt skuespill har samme klokkeslett, så de er derfor satt inn med bestemt tid.
-Antar den forestillingen som har solgt best, er den med flest solgte billetter for brukertilfelle 6.
-For brukertilfelle 4 antar vi at det er ønsket å vise antall solgte billetter for hver forestilling, ikke for dagen totalt. 
+- Ettersom de ansatte ikke hadde epost antok vi hva eposten ville vært.
+- Alle forestillingene for et gitt skuespill har samme klokkeslett, så de er derfor satt inn med bestemt tid.
+- Antar den forestillingen som har solgt best, er den med flest solgte billetter for brukertilfelle 6.
+- For brukertilfelle 4 antar vi at det er ønsket å vise antall solgte billetter for hver forestilling, ikke for dagen totalt.
 
 ## Oppstartsguide
 Åpne terminal og påse at du har python versjon 3 eller høyere installert. Deretter kan du kjøre kommandoene nevnt nedenfor for å teste brukstilfellene.
 
 Brukstilfelle 1 og 2: `python3 cleanDatabase.py`
 
-Brukstilfelle 3:
+Brukstilfelle 3: `python3 useCase3.py`
 
 Brukstilfelle 4: `python3 useCase4.py`
 
@@ -22,6 +23,19 @@ Brukstilfelle 6: `python3 useCase6.py`
 Brukstilfelle 7: `python3 useCase7.py`
 
 ## Output
+### Brukstilfelle 3
+```
+Kjøpte en Ordinær billett på setenummer 1 og radnummer 1 i salområdet Balkong
+Kjøpte en Ordinær billett på setenummer 2 og radnummer 1 i salområdet Balkong
+Kjøpte en Ordinær billett på setenummer 3 og radnummer 1 i salområdet Balkong
+Kjøpte en Ordinær billett på setenummer 4 og radnummer 1 i salområdet Balkong
+Kjøpte en Ordinær billett på setenummer 5 og radnummer 1 i salområdet Balkong
+Kjøpte en Ordinær billett på setenummer 6 og radnummer 1 i salområdet Balkong
+Kjøpte en Ordinær billett på setenummer 7 og radnummer 1 i salområdet Balkong
+Kjøpte en Ordinær billett på setenummer 8 og radnummer 1 i salområdet Balkong
+Kjøpte en Ordinær billett på setenummer 9 og radnummer 1 i salområdet Balkong
+```
+
 ### Brukstilfelle 4
 ```
 Skriv inn datoen du vil vise billetter til (FORMAT DD-MM-YYYY): 03-02-2024
