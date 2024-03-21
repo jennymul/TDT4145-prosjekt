@@ -20,16 +20,17 @@ def printActorsPlayedInSameActAsActor(actor_name):
         JOIN RolleIAkt ON RolleIAkt.Rolle = SpillesAv.Rolle
         JOIN Akt ON RolleIAkt.Akt = Akt.AktNummer AND RolleIAkt.TeaterStykke = Akt.TeaterStykke
         WHERE Skuespiller.Navn = ?
-    ) AS SkuespillerInfo ON RolleIAkt.Akt = SkuespillerInfo.AktNummer AND RolleIAkt.TeaterStykke = SkuespillerInfo.TeaterStykke;
+    ) AS SkuespillerInfo ON RolleIAkt.Akt = SkuespillerInfo.AktNummer AND RolleIAkt.TeaterStykke = SkuespillerInfo.TeaterStykke
+    WHERE Skuespiller.Navn != ?;
     """,
-        [actor_name],
+        [actor_name, actor_name],
     )
 
     result = cursor.fetchall()
     result = [(actor_name, row[0], row[1]) for row in result]
     printTable(
         ["Skuespiller A", "Skuespiller B", "TeaterStykke"], result
-    )  # TODO Ikke printe når Skuespiller A = Skuespiller B
+    )
 
 
 actor_name = input("Skriv inn skuespillernavn: ")

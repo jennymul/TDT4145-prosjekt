@@ -101,7 +101,7 @@ def insertGamleScene(cursor):
 ticket_id = 1
 def insertTicketsFromFile(cursor, filename, hall_id, play_id, show_time):
     global ticket_id
-    ticket_price = 350 # TODO We assume that only ordinary tickets are bought
+    ticket_price = 350 # We assume that only ordinary tickets are purchased
 
     dummy_current_date = '01-02-2024'
     dummy_current_time = '10:00:00'
@@ -112,7 +112,7 @@ def insertTicketsFromFile(cursor, filename, hall_id, play_id, show_time):
     current_floor = None
 
     with open(filename, 'r') as file:
-        date_components = file.readline().strip().split('-')
+        date_components = file.readline().strip()[5:].split('-')
         date = date_components[2] + "-" + date_components[1] + "-" + date_components[0]
 
         for line in file:
