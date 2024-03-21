@@ -8,7 +8,8 @@ def printShowsByTicketSales():
     cursor = con.cursor()
     cursor.execute("""PRAGMA encoding = "UTF-8" """)
 
-    cursor.execute("""
+    cursor.execute(
+        """
     SELECT
         f.Dato, 
         f.Klokkeslett, 
@@ -19,7 +20,8 @@ def printShowsByTicketSales():
     LEFT JOIN Billett b ON f.TeaterStykke = b.TeaterStykke AND f.Dato = b.Dato AND f.Klokkeslett = b.Klokkeslett
     GROUP BY f.Dato, f.Klokkeslett, ts.Tittel
     ORDER BY AntallBilletter DESC
-    """)
+    """
+    )
 
     shows = cursor.fetchall()
     printTable(
@@ -27,5 +29,5 @@ def printShowsByTicketSales():
     )
     con.close()
 
-printShowsByTicketSales()
 
+printShowsByTicketSales()
