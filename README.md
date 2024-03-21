@@ -22,6 +22,8 @@ Brukstilfelle 6: `python3 useCase6.py`
 
 Brukstilfelle 7: `python3 useCase7.py`
 
+TODO Oppdatere Output og sjekke om det blir det samme
+
 ## Output
 ### Brukstilfelle 3
 ```

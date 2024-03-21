@@ -2,7 +2,7 @@ import sqlite3
 from utils import printTable
 
 
-def printActorsPlayedInSameAct(actor_name):
+def printActorsPlayedInSameActAsActor(actor_name):
     con = sqlite3.connect("trondelagTeater.db")
     cursor = con.cursor()
 
@@ -27,8 +27,8 @@ def printActorsPlayedInSameAct(actor_name):
 
     result = cursor.fetchall()
     result = [(actor_name, row[0], row[1]) for row in result]
-    printTable(["Skuespiller A", "Skuespiller B", "TeaterStykke"], result)
+    printTable(["Skuespiller A", "Skuespiller B", "TeaterStykke"], result) # TODO Ikke printe når Skuespiller A = Skuespiller B
 
 
 actor_name = input("Skriv inn skuespillernavn: ")
-printActorsPlayedInSameAct(actor_name)
+printActorsPlayedInSameActAsActor(actor_name)
