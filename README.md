@@ -1,5 +1,5 @@
 # TDT4145-Prosjekt Gruppe 145
-Jonas De Luna Skulberg, Falk Elvedal Bruskeland, Jenny Müller
+Jonas De Luna Skulberg, Falk Elvedal Bruskeland og Jenny Müller
 
 ## Kommentarer/Antagelser
 - Ettersom de ansatte ikke hadde epost antok vi hva eposten ville vært.

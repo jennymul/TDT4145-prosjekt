@@ -18,19 +18,25 @@ def getNextPrimaryKey(cursor, primary_key_name, table_name):
 
 
 def printTable(column_names, rows):
-    column_widths = [len(column) for column in column_names]
-    for row in rows:
-        for i, item in enumerate(row):
-            column_widths[i] = max(column_widths[i], len(str(item)))
-
-    row_format = "| " + " | ".join(["{:<%d}" % width for width in column_widths]) + " |"
-
-    print(row_format.format(*column_names))
+    column_widths = []
+    for index, name in enumerate(column_names):
+        width = len(name)
+        for row in rows:
+            width = max(width, len(str(row[index])))
+        column_widths.append(width)
 
     print("|", end="")
-    for column_width in column_widths:
-        print("-" * (column_width + 2), end="|")
+    for index, name in enumerate(column_names):
+        print(" " + name.ljust(column_widths[index]) + " |", end="")
+    print()
+
+    print("|", end="")
+    for width in column_widths:
+        print("-" * (width + 2) + "|", end="")
     print()
 
     for row in rows:
-        print(row_format.format(*[str(item) for item in row]))
+        print("|", end="")
+        for index, item in enumerate(row):
+            print(" " + str(item).ljust(column_widths[index]) + " |", end="")
+        print()
