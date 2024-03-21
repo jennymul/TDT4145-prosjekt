@@ -98,6 +98,46 @@ def insertGamleScene(cursor):
                 [seat, mapping[0]],
             )
 
+def insertTicketsFromFile(filename):
+	ticket_id = getNextPrimaryKey('BillettID', 'Billett')
+    ticket_price = getTicketPrice(cursor, 'Ordinær') # We assume that only ordinary tickets are bought
+
+    with open(filename, "r") as file:
+        lines = file.readlines()
+
+		date_components = lines[0].split('-')
+        date = data_components[2] + "-" + data_components[1] + "-" + data_components[0]
+
+        row_counter = 1
+        current_floor = None
+        for line in lines[1..]:
+            line = line.strip()
+
+            if not line.isnumeric():
+                row_counter = 1
+                current_floor = line
+                continue
+
+            for i, seat in enumerate(line):
+                if seat == "1":
+                    cursor.execute(
+                        'INSERT INTO BillettKjop VALUES(?, ?, ?, ?, "1" )',
+                        [ticket_id, ticket_price, date, current_time],
+                    )
+                    cursor.execute(
+                        "INSERT INTO Billett VALUES(?, 1, ?, ?, ?, ?, '18:30:00', 2, 2, ?)",
+                        [
+                            ticket_id,
+                            i + 1,
+                            row_counter,
+                            current_floor,
+                            date,
+                            ticket_id,
+                        ],
+                    )
+                    ticket_id += 1
+
+            row_counter += 1
 
 async def fillDatabase():
     con = sqlite3.connect("trondelagTeater.db")
@@ -316,95 +356,6 @@ async def fillDatabase():
     # Bruker
     cursor.execute('INSERT INTO Kunde VALUES(1,"Navn Navnesen", "Parkgata 1", "navn@gmail.com")')
 
-    date_pattern = r"\d{4}-\d{2}-\d{2}"
-    # We need to re-order dates due to inconsistency with other table.
-    floor_seatings = ["Galleri", "Parkett", "Balkong"]
-    ticket_id_counter = 1
-    current_time = datetime.now().strftime("%H:%M:%S")
-
-    with open("filesneeded/gamle-scene.txt", "r") as file:
-
-        lines = file.readlines()
-        date = None
-        row_counter = 1
-        current_floor = None
-        for line in lines:
-            line = line.strip()
-            match = re.search(date_pattern, line)
-            if match:
-                date = match.group()
-                date_arr = date.split("-")
-                date = date_arr[2] + "-" + date_arr[1] + "-" + date_arr[0]
-                continue
-            if line in floor_seatings:
-                row_counter = 1
-                current_floor = line
-                continue
-            for i, seat in enumerate(line):
-                if seat in ["0", "x"]:
-                    continue
-                if seat == "1":
-                    cursor.execute(
-                        'INSERT INTO BillettKjop VALUES(?, 350, ?, ?, "1" )',
-                        [ticket_id_counter, date, current_time],
-                    )
-                    cursor.execute(
-                        "INSERT INTO Billett VALUES(?, 1, ?, ?, ?, ?, '18:30:00',2,2,?)",
-                        [
-                            ticket_id_counter,
-                            i + 1,
-                            row_counter,
-                            current_floor,
-                            date,
-                            ticket_id_counter,
-                        ],
-                    )
-                    ticket_id_counter += 1
-
-            row_counter += 1
-
-    with open("filesneeded/hovedscenen.txt", "r") as file:
-
-        lines = file.readlines()
-        date = None
-        row_counter = 1
-        current_floor = None
-        time = None
-        for line in lines:
-            line = line.strip()
-            match = re.search(date_pattern, line)
-            if match:
-                date = match.group()
-                date_arr = date.split("-")
-                date = date_arr[2] + "-" + date_arr[1] + "-" + date_arr[0]
-                continue
-            if line in floor_seatings:
-                row_counter = 1
-                current_floor = line
-                continue
-            for i, seat in enumerate(line):
-                if seat in ["0", "x"]:
-                    continue
-                if seat == "1":
-                    cursor.execute(
-                        'INSERT INTO BillettKjop VALUES(?, 350, ?, ?, "1" )',
-                        [ticket_id_counter, date, current_time],
-                    )
-                    cursor.execute(
-                        'INSERT INTO Billett VALUES(?, 1, ?, ?, ?, ?, "19:00:00",1,1,?)',
-                        [
-                            ticket_id_counter,
-                            i + 1,
-                            row_counter,
-                            current_floor,
-                            date,
-                            ticket_id_counter,
-                        ],
-                    )
-                    ticket_id_counter += 1
-
-            row_counter += 1
-
     # Oppgaver
     cursor.execute('INSERT INTO Oppgave VALUES
 	    (1, "Regi", "regissør", 2),
@@ -436,6 +387,9 @@ async def fillDatabase():
 	    (12, 11),
 	    (13, 12),
     ")
+
+    insertTicketsFromFile("filesneeded/gamle-scene.txt")
+    insertTicketsFromFile("filesneeded/hovedscenen.txt")
 
     con.commit()
     con.close()

@@ -13,7 +13,7 @@ def getNextPrimaryKey(cursor, primary_key_name, table_name):
     )
     primary_key = cursor.fetchone()
     if primary_key == None:
-        return 0
+        return 1
     return primary_key[0] + 1
 
 

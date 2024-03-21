@@ -13,6 +13,7 @@ hall_id = 2  # TODO
 
 con = sqlite3.connect("trondelagTeater.db")
 cursor = con.cursor()
+# TODO Add UTF-8 to all cursors
 
 cursor.execute(
     """
