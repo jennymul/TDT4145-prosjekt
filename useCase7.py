@@ -1,11 +1,13 @@
 import sqlite3
 from utils import printTable
 
+
 def printActorsPlayedInSameAct(actor_name):
     con = sqlite3.connect("trondelagTeater.db")
     cursor = con.cursor()
 
-    cursor.execute("""
+    cursor.execute(
+        """
     SELECT DISTINCT Skuespiller.Navn, TeaterStykke.Tittel
     FROM RolleIAkt
     JOIN SpillesAv ON SpillesAv.Rolle = RolleIAkt.Rolle
@@ -19,11 +21,14 @@ def printActorsPlayedInSameAct(actor_name):
         JOIN Akt ON RolleIAkt.Akt = Akt.AktNummer AND RolleIAkt.TeaterStykke = Akt.TeaterStykke
         WHERE Skuespiller.Navn = ?
     ) AS SkuespillerInfo ON RolleIAkt.Akt = SkuespillerInfo.AktNummer AND RolleIAkt.TeaterStykke = SkuespillerInfo.TeaterStykke;
-    """, [actor_name])
+    """,
+        [actor_name],
+    )
 
     result = cursor.fetchall()
     result = [(actor_name, row[0], row[1]) for row in result]
     printTable(["Skuespiller A", "Skuespiller B", "TeaterStykke"], result)
+
 
 actor_name = input("Skriv inn skuespillernavn: ")
 printActorsPlayedInSameAct(actor_name)

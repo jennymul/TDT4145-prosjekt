@@ -2,6 +2,7 @@ import sqlite3
 import re
 from utils import printTable
 
+
 def listShowsByTicketSales():
     con = sqlite3.connect("trondelagTeater.db")
     cursor = con.cursor()
@@ -22,6 +23,9 @@ def listShowsByTicketSales():
     cursor.execute(query)
 
     shows = cursor.fetchall()
-    printTable(["Dato", "Klokkeslett", "TeaterStykke", "Antall solgte billetter"], shows)
+    printTable(
+        ["Dato", "Klokkeslett", "TeaterStykke", "Antall solgte billetter"], shows
+    )
+
 
 listShowsByTicketSales()
