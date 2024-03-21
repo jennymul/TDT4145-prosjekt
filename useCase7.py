@@ -28,9 +28,7 @@ def printActorsPlayedInSameActAsActor(actor_name):
 
     result = cursor.fetchall()
     result = [(actor_name, row[0], row[1]) for row in result]
-    printTable(
-        ["Skuespiller A", "Skuespiller B", "TeaterStykke"], result
-    )
+    printTable(["Skuespiller A", "Skuespiller B", "TeaterStykke"], result)
 
 
 actor_name = input("Skriv inn skuespillernavn: ")
